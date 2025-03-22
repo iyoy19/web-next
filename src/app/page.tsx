@@ -1,13 +1,13 @@
-// components
-import { Navbar, Footer } from "@/components";
+"use client";
 
-// sections
+import React from "react";
+import { Navbar, Footer } from "@/components";
 import Hero from "./hero";
-import Informasi, { InfoCarousel } from "./informasi";
+import Informasi from "./informasi";
 import AboutEvent from "./about-event";
 import EventContent from "./event-content";
 
-export default function Portfolio() {
+const Page = () => {
   return (
     <>
       <Navbar />
@@ -18,4 +18,6 @@ export default function Portfolio() {
       <Footer />
     </>
   );
-}
+};
+
+export default Page;

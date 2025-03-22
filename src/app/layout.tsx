@@ -2,6 +2,8 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
 import { Layout } from "@/components";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const roboto = Roboto({
   subsets: ["latin"],
@@ -11,8 +13,7 @@ const roboto = Roboto({
 
 export const metadata: Metadata = {
   title: "Sikondang",
-  description:
-    "Web",
+  description: "Web",
 };
 
 export default function RootLayout({
@@ -34,6 +35,7 @@ export default function RootLayout({
         <Layout>
           {children}
         </Layout>
+        <ToastContainer /> {/* Toast notifications container */}
         <link
           rel="stylesheet"
           href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
@@ -44,6 +46,4 @@ export default function RootLayout({
       </body>
     </html>
   );
-
-  
 }

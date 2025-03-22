@@ -1,0 +1,15 @@
+export interface DataSDI {
+  id: number;
+  kode_sdsn: string;
+  konsep: string;
+  status: string;
+  definisi: string;
+  nama_klasifikasi: string;
+  nama_satuan: string;
+  nama_bidang: string;
+  judul_indikator: string;
+  no_indikator: string;
+  nama_ukuran: string;
+  nama_peruntukan: string;
+  nama_kelompok: string;
+}
