@@ -36,7 +36,7 @@ function Hero() {
             <svg 
               xmlns="http://www.w3.org/2000/svg" 
               viewBox="0 0 24 24" 
-              fill="currentColor" 
+              fill="white" 
               className="absolute w-5 h-5 top-2.5 left-2.5 text-slate-400"
             >
               <path 

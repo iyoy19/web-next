@@ -1,4 +1,8 @@
+"use client";
+
 import React, { useState, useEffect } from "react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
 import {
   Navbar as MTNavbar,
   Collapse,
@@ -42,10 +46,8 @@ const NAV_MENU = [
   {
     name: "Home",
     icon: HomeIcon,
-    href: "#home",
+    href: "/",
     content: "Ini adalah halaman utama. Selamat datang!",
-    buttons: ["Beranda", "Tentang Kami", "Kontak"],
-    links: ["#beranda", "#tentang-kami", "#kontak"],
   },
   {
     name: "Publikasi",
@@ -75,6 +77,8 @@ export function Navbar() {
     buttons: [],
     links: [],
   });
+
+  const router = useRouter();
 
   useEffect(() => {
     const handleResize = () => {
@@ -112,32 +116,38 @@ export function Navbar() {
         }`}
       >
         <div className="container mx-auto flex items-center justify-between">
-          <Typography
-            color={isScrolling ? "black" : "white"}
-            className="text-lg font-bold"
-          >
-            Sikondang
-          </Typography>
+          {/* 🔹 Logo + Nama SIKONDANG */}
+          <div className="flex items-center gap-2 cursor-pointer" onClick={() => router.push("/")}>
+            <Image src="/logos/logo-srg.png" alt="Logo" width={100} height={100} />
+          </div>
+
+          {/* 🔹 Menu Navbar */}
           <ul
             className={`ml-10 hidden items-center gap-6 lg:flex ${
               isScrolling ? "text-black" : "text-white"
             }`}
           >
-            {NAV_MENU.map(({ name, icon: Icon, content, buttons, links }) => (
+            {NAV_MENU.map(({ name, icon: Icon, content, buttons, links, href }) => (
               <NavItem
                 key={name}
-                onClick={() => handleMenuClick(name, content, buttons, links)}
+                onClick={() =>
+                  name === "Home" ? router.push(href) : handleMenuClick(name, content, buttons, links)
+                }
               >
                 <Icon className="h-7 w-7" />
                 <span>{name}</span>
               </NavItem>
             ))}
           </ul>
+
+          {/* 🔹 Login Button */}
           <div className="hidden items-center gap-4 lg:flex">
             <a href="#">
               <Button color={isScrolling ? "gray" : "white"}>Login</Button>
             </a>
           </div>
+
+          {/* 🔹 Menu Mobile */}
           <IconButton
             variant="text"
             color={isScrolling ? "gray" : "white"}
@@ -151,13 +161,17 @@ export function Navbar() {
             )}
           </IconButton>
         </div>
+
+        {/* 🔹 Menu Mobile (Dropdown) */}
         <Collapse open={open}>
           <div className="container mx-auto mt-4 rounded-lg bg-white px-6 py-5">
             <ul className="flex flex-col gap-4 text-black">
-              {NAV_MENU.map(({ name, icon: Icon, content, buttons, links }) => (
+              {NAV_MENU.map(({ name, icon: Icon, content, buttons, links, href }) => (
                 <NavItem
                   key={name}
-                  onClick={() => handleMenuClick(name, content, buttons, links)}
+                  onClick={() =>
+                    name === "Home" ? router.push(href) : handleMenuClick(name, content, buttons, links)
+                  }
                 >
                   <Icon className="h-5 w-5" />
                   <span>{name}</span>
@@ -171,7 +185,7 @@ export function Navbar() {
         </Collapse>
       </MTNavbar>
 
-      {/* Modal */}
+      {/* 🔹 Modal */}
       <Dialog open={modalOpen} handler={() => setModalOpen(false)}>
         <DialogHeader>{modalContent.title}</DialogHeader>
         <DialogBody>

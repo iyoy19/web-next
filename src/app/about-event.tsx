@@ -1,29 +1,35 @@
 "use client";
 
 import { Typography } from "@material-tailwind/react";
-import { FaMicrophone, FaChalkboardTeacher, FaUsers } from "react-icons/fa";
+import { GiEarthAsiaOceania } from "react-icons/gi";
+import { GoChecklist } from "react-icons/go";
+import { FcStatistics } from "react-icons/fc";
 import Carousel from "react-multi-carousel";
+import { useRouter } from "next/navigation"; // Gunakan useRouter untuk navigasi
 import "react-multi-carousel/lib/styles.css";
 
 // Data untuk card
 const EVENT_INFO = [
   {
-    title: "Cutting-Edge Insights!",
-    subTitle: "Presentation",
-    icon: <FaMicrophone className="text-blue-500 text-7xl" />,
+    title: "Statistik",
+    subTitle: "Statistik Sektoral",
+    icon: <FcStatistics className="text-blue-500 text-7xl" />,
     bgColor: "bg-blue-100",
+    link: "/statistik",
   },
   {
-    title: "Practical Knowledge!",
-    subTitle: "Workshops",
-    icon: <FaChalkboardTeacher className="text-green-500 text-7xl" />,
+    title: "Geospasial",
+    subTitle: "Kota-Serang",
+    icon: <GiEarthAsiaOceania className="text-green-500 text-7xl" />,
     bgColor: "bg-green-100",
+    link: "/geospasial",
   },
   {
-    title: "Networking Opportunities!",
-    subTitle: "Networking",
-    icon: <FaUsers className="text-red-500 text-7xl" />,
+    title: "Perencanaan",
+    subTitle: "Perencanaan",
+    icon: <GoChecklist className="text-red-500 text-7xl" />,
     bgColor: "bg-red-100",
+    link: "/perencanaan",
   },
 ];
 
@@ -36,6 +42,8 @@ const responsive = {
 };
 
 export function AboutEvent() {
+  const router = useRouter(); // Inisialisasi useRouter
+
   return (
     <section
       className="relative flex flex-col items-center justify-center px-4 py-16 pt-2 bg-cover bg-center bg-no-repeat"
@@ -46,8 +54,12 @@ export function AboutEvent() {
 
       {/* Konten utama */}
       <div className="relative z-10 text-center text-white w-full max-w-6xl">
-        <Typography variant="h5" className="mb-8 font-bold pt-5" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
-        Statistik Portal
+        <Typography
+          variant="h5"
+          className="mb-8 font-bold pt-5"
+          placeholder=""
+        >
+          PORTAL
         </Typography>
 
         {/* Carousel */}
@@ -63,7 +75,8 @@ export function AboutEvent() {
           {EVENT_INFO.map((event, idx) => (
             <div
               key={idx}
-              className="flex flex-col items-center justify-center h-60 bg-white text-gray-900 rounded-xl shadow-lg p-8 mx-3 transition-transform duration-300 hover:scale-105"
+              className="flex flex-col items-center justify-center h-60 bg-white text-gray-900 rounded-xl shadow-lg p-8 mx-3 transition-transform duration-300 hover:scale-105 cursor-pointer"
+              onClick={() => router.push(event.link)} // Navigasi ke halaman terkait
             >
               {/* Icon dalam lingkaran */}
               <div className={`mb-6 flex items-center justify-center w-24 h-24 rounded-full ${event.bgColor}`}>
@@ -71,10 +84,10 @@ export function AboutEvent() {
               </div>
 
               {/* Konten */}
-              <Typography variant="h5" className="font-semibold text-center"placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
+              <Typography variant="h5" className="font-semibold text-center">
                 {event.title}
               </Typography>
-              <Typography variant="small" className="text-gray-600 text-center" placeholder="" onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
+              <Typography variant="small" className="text-gray-600 text-center">
                 {event.subTitle}
               </Typography>
             </div>

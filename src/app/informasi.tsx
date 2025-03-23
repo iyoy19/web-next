@@ -19,7 +19,7 @@ const INFO_CARDS = [
   {
     title: "Perekonomian",
     description: "Laporan ekonomi terbaru untuk kemajuan daerah.",
-    image: "/image/event2.jpg",
+    image: "/image/event2.jpeg",
     date: "10 Maret 2025",
     link: "#Ekonomi"
   },
@@ -33,7 +33,7 @@ const INFO_CARDS = [
   {
     title: "Kesehatan",
     description: "Update terbaru mengenai layanan kesehatan masyarakat.",
-    image: "/image/event4.jpg",
+    image: "/image/event2.jpeg",
     date: "1 Maret 2025",
     link: "#Kesehatan"
   },

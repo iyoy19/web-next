@@ -1,48 +1,68 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { postDataKominfo } from "@/utils/api"; // Pastikan api ini sudah benar
-import FetchDataTable from "@/components/FetchDataTable"; // Komponen untuk menampilkan tabel data
+import dynamic from "next/dynamic"; // Import dynamic untuk mencegah SSR error
+import FetchDataTable from "@/components/FetchDataTable"; // Ensure this path is correct
 
-const FetchKominfoPage = () => {
-  const [data, setData] = useState<any[]>([]);
-  const [loading, setLoading] = useState<boolean>(true);
-  const [error, setError] = useState<string>("");
+const Navbar = dynamic(() => import("@/components/navbar"), { ssr: false }); // Mencegah SSR error
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const requestData = { key: "value" }; // Sesuaikan dengan parameter yang dibutuhkan API
-        const response = await postDataKominfo(requestData); // Gunakan fungsi yang sesuai
+const DataKominfoPage = () => {
+    const [data, setData] = useState<any[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [error, setError] = useState<string>("");
 
-        // Pastikan response berisi data dan urutkan berdasarkan ID
-        if (response?.data_kominfo) {
-          const sortedData = response.data_kominfo.sort((a: any, b: any) => a.id - b.id);
-          setData(sortedData);
-        } else {
-          setError("Data tidak tersedia.");
-        }
-      } catch (err: any) {
-        setError("Gagal mengambil data: " + (err?.message || "Terjadi kesalahan."));
-      } finally {
-        setLoading(false);
-      }
-    };
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const payload = { key: "value" }; // Ganti dengan payload yang sesuai
+                const response = await fetch("/api/data_kominfo", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(payload),
+                });
 
-    fetchData();
-  }, []);
+                if (!response.ok) {
+                    const errorText = await response.text();
+                    throw new Error(`HTTP error! status: ${response.status}, body: ${errorText}`);
+                }
 
-  return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold text-center">Data Kominfo</h1>
-      {loading && <p className="text-center">Loading...</p>}
-      {error && <p className="text-red-500 text-center">{error}</p>}
-      {data.length > 0 && <FetchDataTable data={data} />}
-      {data.length === 0 && !loading && !error && (
-        <p className="text-center text-gray-500">Tidak ada data untuk ditampilkan.</p>
-      )}
-    </div>
-  );
+                const result = await response.json();
+                if (result?.data_kominfo) {
+                    const sortedData = result.data_kominfo.sort((a: any, b: any) => a.id - b.id);
+                    setData(sortedData);
+                } else {
+                    setError("Data tidak tersedia.");
+                }
+            } catch (err: any) {
+                setError("Gagal mengambil data: " + (err?.message || "Terjadi kesalahan."));
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    return (
+        <div
+            className="p-4"
+            style={{
+                backgroundImage: "url('/image/event2.jpeg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+            }}
+        >
+            <Navbar /> {/* Panggil Navbar di sini */}
+            <h1 className="text-2xl font-bold text-center text-white pt-20 pb-8">Data Kominfo</h1>
+            {loading && <p className="text-center">Loading...</p>}
+            {error && <p className="text-red-500 text-center">{error}</p>}
+            {!loading && !error && Array.isArray(data) && data.length > 0 ? (
+                <FetchDataTable data={data} />
+            ) : (
+                !loading && <p className="text-center text-gray-500">Tidak ada data untuk ditampilkan.</p>
+            )}
+        </div>
+    );
 };
 
-export default FetchKominfoPage;
+export default DataKominfoPage;
